@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Ejemplo Node JS</title>
+    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@latest/webcomponents-loader.js"></script>
+    <script async src="https://unpkg.com/wired-elements@latest/dist/wired-elements.bundled.js"></script>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#buscar").click(function () {
+                var pelicula = $("#texto").val();
+                var url = "http://localhost:3000/?pelicula=" + encodeURIComponent(pelicula);
+                $.ajax({
+                    url: url, success: function (result) {
+                        $("#resultado").html(crearHTMLPeliculas(result));
+                    }
+                });
+            });
+        });
+
+        var crearHTMLPeliculas = function (peliculas) {
+            html = "<br><br><div>"
+
+            peliculas.forEach(element => {
+                peli = '' +
+                    '<img src="' + element.img + '"/>' +
+                    '<a href="'+element.url+'">' + element.detalles + '<a/>'
+                    +"<br>"
+                    
+                html += peli
+            });
+            html += "</div><br>"
+            console.log(html)
+            return html
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Buscador de películas</h1>
+    <h3>Ejemplo de Node JS</h2>
+    <wired-card elevation="3">
+        <wired-input placeholder="Nombre de película" id="texto"></wired-input>
+        <wired-button id="buscar">Buscar</wired-button>
+
+        <br>
+        <br>
+
+
+
+    </wired-card>
+    <div id="resultado">
+
+    </div>
+
+</body>
+
+</html>
